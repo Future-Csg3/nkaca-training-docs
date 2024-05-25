@@ -1,1 +1,3 @@
+```
 ![sequence dialog](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/Future-Csg3/nkaca-training-docs/main/10_%E6%A4%9C%E8%A8%8E/01_GraphQL/graphql.pu)
+```
