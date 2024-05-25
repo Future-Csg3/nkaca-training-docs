@@ -34,3 +34,5 @@ AWSCloudGroup(cloud){
         AppSync(appsysc, "AWS AppSync", "")
     }
 }
+
+@enduml
