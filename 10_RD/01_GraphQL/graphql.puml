@@ -1,4 +1,5 @@
 @startuml
+' aws library
 !define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v14.0/dist
 !include AWSPuml/AWSCommon.puml
 !include AWSPuml/General/Users.puml
@@ -28,11 +29,28 @@
 !include AWSPuml/DeveloperTools/CodeBuild.puml
 !include AWSPuml/Containers/ElasticContainerRegistryImage.puml
 !include AWSPuml/AWSSimplified.puml
+!include AWSPuml/Database/AuroraMySQLInstance.puml
+!include AWSPuml/Database/AuroraPostgreSQLInstance.puml
+
+' common library
+!include <archimate/Archimate>
 
 AWSCloudGroup(cloud){
     VPCGroup(vpc) {
-        AppSync(appsysc, "AWS AppSync", "")
+        AppSync(appsysc, "AWS AppSync", ""){
+            Application_Component(asSchema, "スキーマ")
+            Application_Component(asResolver, "リゾルバ")
+        }
+
+        GenericGroup(storeGroup, store){
+            rectangle "$DynamoDBIMG()\nAmazon DynamoDB" as dynamodb
+            rectangle "$AuroraMySQLInstanceIMG()\nAmazon Mysql Instance" as mysql
+            rectangle "$AuroraPostgreSQLInstanceIMG()\nAmazon PostgreSQL Instance" as postgresql
+        }
     }
 }
+
+asResolver -> storeGroup
+
 
 @enduml
