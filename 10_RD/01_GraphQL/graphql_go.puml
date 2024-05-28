@@ -1,0 +1,72 @@
+@startuml
+' aws library
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v14.0/dist
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/General/Users.puml
+!include AWSPuml/Groups/AWSCloud.puml
+!include AWSPuml/Groups/Generic.puml
+!include AWSPuml/Groups/GenericAlt.puml
+!include AWSPuml/NetworkingContentDelivery/CloudFront.puml
+!include AWSPuml/Database/DynamoDB.puml
+!include AWSPuml/SecurityIdentityCompliance/Cognito.puml
+!include AWSPuml/Compute/LambdaLambdaFunction.puml
+!include AWSPuml/Storage/SimpleStorageService.puml
+!include AWSPuml/ApplicationIntegration/APIGateway.puml
+!include AWSPuml/ApplicationIntegration/AppSync.puml
+!include AWSPuml/FrontEndWebMobile/Amplify.puml
+!include AWSPuml/Analytics/Athena.puml
+!include AWSPuml/CloudFinancialManagement/CostandUsageReport.puml
+!include AWSPuml/DeveloperTools/ToolsandSDKs.puml
+!include AWSPuml/ManagementGovernance/Config.puml
+!include AWSPuml/Groups/VPC.puml
+!include AWSPuml/Groups/PrivateSubnet.puml
+!include AWSPuml/Database/Neptune.puml
+!include AWSPuml/Analytics/OpenSearchService.puml
+!include AWSPuml/Containers/ElasticContainerService.puml
+!include AWSPuml/Containers/Fargate.puml
+!include AWSPuml/Containers/ElasticContainerRegistry.puml
+!include AWSPuml/DeveloperTools/CodePipeline.puml
+!include AWSPuml/DeveloperTools/CodeBuild.puml
+!include AWSPuml/Containers/ElasticContainerRegistryImage.puml
+!include AWSPuml/AWSSimplified.puml
+!include AWSPuml/Database/AuroraMySQLInstance.puml
+!include AWSPuml/Database/AuroraPostgreSQLInstance.puml
+
+' common library
+!include <archimate/Archimate>
+
+rectangle "$UsersIMG()\nユーザ" as users
+
+AWSCloudGroup(cloud){
+    VPCGroup(vpc) {
+        GenericGroup(storeGroup, store){
+            rectangle "$DynamoDBIMG()\nAmazon DynamoDB" as dynamodb
+            rectangle "$AuroraMySQLInstanceIMG()\nAmazon Mysql Instance" as mysql
+            rectangle "$AuroraPostgreSQLInstanceIMG()\nAmazon PostgreSQL Instance" as postgresql
+        }
+
+        GenericGroup(ecsGroup,Graphql Service)  {
+            rectangle "$ElasticContainerRegistryIMG()\nAmazon Elastic\nContainer Registry" as ecr
+            rectangle "$ElasticContainerServiceIMG()\nAmazon Elastic\nContainer Service" as ecs
+            Fargate(fargate,AWS Fargate,""){
+                Application_Component(asSchema, "スキーマ")
+                Application_Component(asResolver, "リゾルバ")
+            }
+        }
+    }
+}
+
+ecs-d->fargate
+ecs-d->ecr
+ecr-[hidden]r-fargate
+
+users-[hidden]-ecsGroup
+users-r->asSchema
+
+ecsGroup-[hidden]r-storeGroup
+asSchema-[hidden]r-asResolver
+
+asResolver-r->storeGroup
+
+
+@enduml
