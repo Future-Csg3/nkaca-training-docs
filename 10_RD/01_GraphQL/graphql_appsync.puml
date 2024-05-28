@@ -35,22 +35,32 @@
 ' common library
 !include <archimate/Archimate>
 
+rectangle "$UsersIMG()\nユーザ" as users
+
 AWSCloudGroup(cloud){
     VPCGroup(vpc) {
-        AppSync(appsysc, "AWS AppSync", ""){
-            Application_Component(asSchema, "スキーマ")
-            Application_Component(asResolver, "リゾルバ")
-        }
-
         GenericGroup(storeGroup, store){
             rectangle "$DynamoDBIMG()\nAmazon DynamoDB" as dynamodb
             rectangle "$AuroraMySQLInstanceIMG()\nAmazon Mysql Instance" as mysql
             rectangle "$AuroraPostgreSQLInstanceIMG()\nAmazon PostgreSQL Instance" as postgresql
         }
+
+        AppSync(appsysc, "AWS AppSync", ""){
+            Application_Component(asSchema, "スキーマ")
+            Application_Component(asResolver, "リゾルバ")
+        }
+
+
     }
 }
 
-asResolver -> storeGroup
+
+users-r->asSchema
+
+appsysc-[hidden]r-storeGroup
+asSchema-[hidden]r-asResolver
+
+asResolver-r->storeGroup
 
 
 @enduml
