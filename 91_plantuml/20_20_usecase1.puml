@@ -1,0 +1,48 @@
+@startuml
+left to right direction
+actor トレーナー as trainer
+
+actor トレーニー as trainee
+
+usecase (企画する) as plan
+usecase (アカウントを渡す) as pass
+usecase (アカウントを受け取る) as receive
+
+rectangle {
+
+    usecase (課題を登録する) as createChapter
+    usecase (課題を検索する) as searchChapter
+    usecase (課題の詳細を確認する) as detailChapter
+    usecase (課題を更新する) as updateChapter
+    usecase (テーマを登録する) as createTheme
+    usecase (テーマを検索する) as searchTheme
+    usecase (テーマの詳細を確認する) as detailTheme
+    usecase (テーマを更新する) as updateTheme
+    usecase (テーマに課題を追加する) as addChapter
+    usecase (テーマから課題を削除する) as removeChapter
+    usecase (ユーザーのアカウントを発行する) as createUser
+}
+
+trainer --> createChapter
+trainer --> updateChapter
+
+searchChapter ..> updateChapter : include
+detailChapter ..> updateChapter : include
+
+trainer --> createTheme
+trainer --> updateTheme
+
+searchTheme ..> updateTheme : include
+detailTheme ..> updateTheme : include
+
+addChapter ..> updateTheme : include
+detailChapter ..> addChapter : include
+removeChapter ..> updateTheme : include
+
+trainer --> createUser
+
+trainer --> plan
+trainer --> pass
+
+trainee --> receive
+@enduml
