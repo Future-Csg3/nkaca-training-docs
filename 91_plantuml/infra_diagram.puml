@@ -53,14 +53,13 @@ AWSCloudGroup(cloud) {
             }
 
             rectangle "$DynamoDBIMG()\nAmazon DynamoDB" as dynamodb
-
-            APIGateway(agw,"API Gateway", "") #Transparent
         }    
     }
 }
 
 ' layout
 ig -[hidden]r- subnet1
+ig -[hidden]d- subnet2
 subnet1 -[hidden]d- subnet2
 subnet1 -[hidden]r- components3
 ecs -[hidden]d- ecr
@@ -73,7 +72,6 @@ ecs -d- ecr
 alb -d- ec2_1
 alb -r- fargate
 
-agw -d- appsysc
 appsysc -r- dynamodb
 
 
